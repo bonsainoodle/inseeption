@@ -1,3 +1,6 @@
+import repackage
+repackage.up()
+
 import json
 from libs.get_files import get_file_to_df
 from libs.treat_files import init_new_df, complete_new_df
