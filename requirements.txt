@@ -1,0 +1,4 @@
+pandas==1.2.2
+repackage==0.7.3
+numpy==1.19.2
+requests==2.20.1
