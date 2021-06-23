@@ -22,7 +22,7 @@ fileHandler.setLevel(getattr(logging, data["log_level_file"]))
 consoleHandler = logging.StreamHandler()
 consoleHandler.setLevel(getattr(logging, data["log_level_console"]))
 
-formatter = logging.Formatter("[%(asctime)s] %(name)s %(levelname)s: %(message)s (L.%(lineno)s - %(funcName)s())")
+formatter = logging.Formatter("[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s (L.%(lineno)s - %(funcName)s())")
 fileHandler.setFormatter(formatter)
 consoleHandler.setFormatter(formatter)
 
