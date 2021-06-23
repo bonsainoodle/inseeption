@@ -10,8 +10,9 @@ from libs.treat_files import init_new_df, complete_new_df_debug
 
 
 with open("unittest/log.json") as config_file:
-    data = json.load(config_file)
+    data = json.load(config_file) # Get config
 
+# Setup logging 
 logger = logging.getLogger("log")
 logger.setLevel(logging.DEBUG)
 
@@ -28,6 +29,7 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(fileHandler)
 logger.addHandler(consoleHandler)
 
+# Create ok and error datasets
 df_b_ok = pd.read_csv("unittest/base-ic-couples-familles-menages-2017.CSV", sep=";", low_memory=False)
 df_b_error = pd.read_csv("unittest/base-ic-logement-2017.CSV", sep=";", low_memory=False)
 
@@ -43,6 +45,7 @@ df_ok_complete_sum_max = max(complete_new_df_debug(df_ok, 3, "fr_co#")["sum"])
 df_error_complete_sum_min = min(complete_new_df_debug(df_error, 4, "fr_oc#")["sum"])
 df_error_complete_sum_max = max(complete_new_df_debug(df_error, 4, "fr_oc#")["sum"])
 
+# Make the test
 class TestSum(unittest.TestCase):
     def test_ok_min(self):
         try:
