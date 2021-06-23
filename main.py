@@ -61,7 +61,8 @@ df_vo_complete = complete_new_df(df_vo, 3, "fr_vo#")
 dfs = [df_co_complete, df_ef_complete, df_cs_complete, df_tr_complete, df_di_complete, df_lo_complete, df_pi_complete, df_oc_complete, df_vo_complete]
 df_merged = reduce(lambda  left, right: pd.merge(left, right, on=["COD_IRIS"], how="left"), dfs)
 
-print(df_merged.head())
+compression_opts = dict(method="zip", archive_name="IRIS_DATA_20%s.csv" % year)  
+df_merged.to_csv("IRIS_DATA_20%s.zip" % year, index=False, compression=compression_opts)  
 
 
 
