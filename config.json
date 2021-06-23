@@ -1,0 +1,11 @@
+{
+    "df_b_co": "https://www.insee.fr/fr/statistiques/fichier/4799268/base-ic-couples-familles-menages-2017_csv.zip",
+    "df_b_ef": "https://www.insee.fr/fr/statistiques/fichier/4799268/base-ic-couples-familles-menages-2017_csv.zip",
+    "df_b_cs": "https://www.insee.fr/fr/statistiques/fichier/4799323/base-ic-activite-residents-2017_csv.zip",
+    "df_b_tr": "https://www.insee.fr/fr/statistiques/fichier/4799323/base-ic-activite-residents-2017_csv.zip",
+    "df_b_di": "https://www.insee.fr/fr/statistiques/fichier/4799252/base-ic-diplomes-formation-2017_csv.zip",
+    "df_b_lo": "https://www.insee.fr/fr/statistiques/fichier/4799305/base-ic-logement-2017_csv.zip",
+    "df_b_pi": "https://www.insee.fr/fr/statistiques/fichier/4799305/base-ic-logement-2017_csv.zip",
+    "df_b_oc": "https://www.insee.fr/fr/statistiques/fichier/4799305/base-ic-logement-2017_csv.zip",
+    "df_b_vo": "https://www.insee.fr/fr/statistiques/fichier/4799305/base-ic-logement-2017_csv.zip"
+}
