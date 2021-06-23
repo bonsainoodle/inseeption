@@ -1,0 +1,6 @@
+[2021-06-23 13:40:23,995] log INFO: Starting... (l.77 - <module>())
+[2021-06-23 13:40:24,003] log INFO: OK (l.71 - test_error_max())
+[2021-06-23 13:40:24,003] log INFO: OK (l.64 - test_error_min())
+[2021-06-23 13:40:24,004] log INFO: OK (l.57 - test_ok_max())
+[2021-06-23 13:40:24,004] log INFO: OK (l.50 - test_ok_min())
+[2021-06-23 13:40:24,005] log INFO: Finished! (l.79 - <module>())

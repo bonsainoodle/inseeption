@@ -7,18 +7,19 @@ from libs.treat_files import init_new_df, complete_new_df
 import pandas as pd
 from functools import reduce
 
+
 year = 17 # Choose the year you retrieve the data from (2017 --> 17)
 
 # Define columns for every field your are retrieving (if only the year changes you won't need to modify this section)
 df_co_col = [f"C{year}_FAM", f"C{year}_COUPAENF", f"C{year}_FAMMONO", f"C{year}_COUPSENF"],
-df_ef_col = [f"C{year}_NE24F0", f"C{year}_NE24F1", f"C{year}_NE24F2", f"C{year}_NE24F3", f"C{year}_NE24F4P"],
+df_ef_col = f"C{year}_FAM", [f"C{year}_NE24F0", f"C{year}_NE24F1", f"C{year}_NE24F2", f"C{year}_NE24F3", f"C{year}_NE24F4P"],
 df_cs_col = [f"C{year}_ACT1564", f"C{year}_ACT1564_CS1", f"C{year}_ACT1564_CS2", f"C{year}_ACT1564_CS3", f"C{year}_ACT1564_CS4", f"C{year}_ACT1564_CS5", f"C{year}_ACT1564_CS6"],
 df_tr_col = [f"C{year}_ACTOCC15P", f"C{year}_ACTOCC15P_PAS", f"C{year}_ACTOCC15P_MAR", f"C{year}_ACTOCC15P_2ROUESMOT", f"C{year}_ACTOCC15P_VOIT", f"C{year}_ACTOCC15P_TCOM"],
 df_di_col = [f"P{year}_NSCOL15P", f"P{year}_NSCOL15P_DIPLMIN", f"P{year}_NSCOL15P_CAPBEP", f"P{year}_NSCOL15P_BAC", f"P{year}_NSCOL15P_SUP2"],
 df_lo_col = [f"P{year}_LOG", f"P{year}_MAISON", f"P{year}_APPART"],
-df_pi_col = [f"P{year}_RP_1P", f"P{year}_RP_2P", f"P{year}_RP_3P", f"P{year}_RP_4P", f"P{year}_RP_5PP"],
-df_oc_col = [f"P{year}_RP_PROP", f"P{year}_RP_LOC", f"P{year}_RP_LOCHLMV", f"P{year}_RP_GRAT"],
-df_vo_col = [f"P{year}_RP_VOIT1P", f"P{year}_RP_VOIT1", f"P{year}_RP_VOIT2P"]
+df_pi_col = [f"P{year}_RP", f"P{year}_RP_1P", f"P{year}_RP_2P", f"P{year}_RP_3P", f"P{year}_RP_4P", f"P{year}_RP_5PP"],
+df_oc_col = [f"P{year}_RP", f"P{year}_RP_PROP", f"P{year}_RP_LOC", f"P{year}_RP_LOCHLMV", f"P{year}_RP_GRAT"],
+df_vo_col = [f"P{year}_MEN", f"P{year}_RP_VOIT1P", f"P{year}_RP_VOIT1", f"P{year}_RP_VOIT2P"]
 
 with open("config.json") as config_file:
     data = json.load(config_file) # Get all urls

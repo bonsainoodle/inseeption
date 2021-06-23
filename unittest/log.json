@@ -1,0 +1,4 @@
+{
+    "log_level_file": "DEBUG",
+    "log_level_console": "INFO"
+}

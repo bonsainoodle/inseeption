@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+
 def init_new_df(df, cols):
     df_to_return = pd.DataFrame()
 
@@ -10,6 +11,7 @@ def init_new_df(df, cols):
         df_to_return[col] = df[col] # Copy every wanted column to the new df
     
     return df_to_return
+
 
 def complete_new_df(df, lenght, prefix, start=0):
     cols = []
@@ -62,6 +64,7 @@ def complete_new_df(df, lenght, prefix, start=0):
     df_to_return = df_to_return.rename(columns={"IRIS": "COD_IRIS"})
     
     return df_to_return
+
 
 def complete_new_df_debug(df, lenght, prefix, start=0):
     cols = []
