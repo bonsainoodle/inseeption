@@ -49,7 +49,7 @@ df_vo = init_new_df(df_b_vo, df_vo_col)
 # Complete all DataFrames
 df_co_complete = complete_new_df(df_co, 3, "fr_co#")
 df_ef_complete = complete_new_df(df_ef, 5, "fr_ef#")
-df_cs_complete = complete_new_df(df_cs, 6, "fr_cs#", start=1) # start = 1 because CS0 doesn't exist
+df_cs_complete = complete_new_df(df_cs, 7, "fr_cs#", last_is_total_minus_sum=True) # start = 1 because CS0 doesn't exist
 df_tr_complete = complete_new_df(df_tr, 5, "fr_tr#")
 df_di_complete = complete_new_df(df_di, 4, "fr_di#")
 df_lo_complete = complete_new_df(df_lo, 2, "fr_lo#")

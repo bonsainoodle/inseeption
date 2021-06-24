@@ -13,7 +13,7 @@ def init_new_df(df, cols):
     return df_to_return
 
 
-def complete_new_df(df, lenght, prefix, start=0):
+def complete_new_df(df, lenght, prefix, start=0, last_is_total_minus_sum=False):
     cols = []
     
     x_return = pd.DataFrame()
@@ -24,19 +24,42 @@ def complete_new_df(df, lenght, prefix, start=0):
     
     for i in range(start, lenght + start):
         cols.append(str(prefix) + str(i)) # Create the new cols name 
+        
+    print(cols)
+    print(df.columns)
+    print(len(df.columns) - 1)
     
     # If first column shouldn't be copied
     if (len(df.columns) - 1) != lenght:
         df_to_return_debug[df.columns[1]] = df[df.columns[1]]
-        for i in range(len(cols)):
-            index = i + 2
-            df_to_return_debug[cols[i]] = df.iloc[:, index] / df.iloc[:, 1] 
-        x_return = df_to_return_debug.drop(df_to_return_debug.columns[0], axis=1) # Drop IRIS column
-        x_df = df.drop(df.columns[0], axis=1) # Drop IRIS column
-        x_df = x_df.drop(x_df.columns[0], axis=1) # Drop first column for later calculation (sum_others should be equal to this column)
+        
+        if not last_is_total_minus_sum:
+            print("first not included")
+            for i in range(len(cols)):
+                index = i + 2
+                df_to_return_debug[cols[i]] = df.iloc[:, index] / df.iloc[:, 1] 
+            x_return = df_to_return_debug.drop(df_to_return_debug.columns[0], axis=1) # Drop IRIS column
+            x_df = df.drop(df.columns[0], axis=1) # Drop IRIS column
+            x_df = x_df.drop(x_df.columns[0], axis=1) # Drop first column for later calculation (sum_others should be equal to this column)
+            
+        else:
+            print("cs")
+            print(cols)
+            sum_cols = pd.Series(0, np.arange(len(df.iloc[:, 1])))
+            for i in range(len(cols) - 1):
+                index = i + 2
+                sum_cols += df.iloc[:, index]
+                df_to_return_debug[cols[i]] = df.iloc[:, index] / df.iloc[:, 1] 
+            print(cols[-1])
+            df_to_return_debug[cols[-1]] = df.iloc[:, 1] - sum_cols
+            
+            x_return = df_to_return_debug.drop(df_to_return_debug.columns[0], axis=1) # Drop IRIS column
+            x_df = df.drop(df.columns[0], axis=1) # Drop IRIS column
+            x_df = x_df.drop(x_df.columns[0], axis=1) # Drop first column for later calculation (sum_others should be equal to this column)
       
     # If first column should be included  
     elif (len(df.columns) - 1) == lenght:
+        print("first included")
         df_to_return_debug[cols[0]] = df[df.columns[1]]
         cols.remove(cols[0])
         for i in range(len(cols)):
@@ -51,6 +74,8 @@ def complete_new_df(df, lenght, prefix, start=0):
     
     # Calculate sum of all probs (it should be equal to 1)
     df_to_return_debug["sum"] = 0
+    if last_is_total_minus_sum:
+        cols.remove(cols[-1])
     for col in cols:
         df_to_return_debug["sum"] += x_return[col]
     
@@ -66,7 +91,7 @@ def complete_new_df(df, lenght, prefix, start=0):
     return df_to_return
 
 
-def complete_new_df_debug(df, lenght, prefix, start=0):
+def complete_new_df_debug(df, lenght, prefix, start=0, last_is_total_minus_sum=False):
     cols = []
     
     x_return = pd.DataFrame()
@@ -81,12 +106,29 @@ def complete_new_df_debug(df, lenght, prefix, start=0):
     # If first column shouldn't be copied
     if (len(df.columns) - 1) != lenght:
         df_to_return_debug[df.columns[1]] = df[df.columns[1]]
-        for i in range(len(cols)):
-            index = i + 2
-            df_to_return_debug[cols[i]] = df.iloc[:, index] / df.iloc[:, 1] 
-        x_return = df_to_return_debug.drop(df_to_return_debug.columns[0], axis=1) # Drop IRIS column
-        x_df = df.drop(df.columns[0], axis=1) # Drop IRIS column
-        x_df = x_df.drop(x_df.columns[0], axis=1) # Drop first column for later calculation (sum_others should be equal to this column)
+        
+        if not last_is_total_minus_sum:
+            for i in range(len(cols)):
+                index = i + 2
+                df_to_return_debug[cols[i]] = df.iloc[:, index] / df.iloc[:, 1] 
+            x_return = df_to_return_debug.drop(df_to_return_debug.columns[0], axis=1) # Drop IRIS column
+            x_df = df.drop(df.columns[0], axis=1) # Drop IRIS column
+            x_df = x_df.drop(x_df.columns[0], axis=1) # Drop first column for later calculation (sum_others should be equal to this column)
+            
+        else:
+            print("go")
+            sum_cols = pd.Series()
+            for i in range(len(cols) - 1):
+                index = i + 2
+                sum_cols = sum_cols.append(df.iloc[:, index], ignore_index=True)
+                df_to_return_debug[cols[i]] = df.iloc[:, index] / df.iloc[:, 1] 
+            
+            print(sum_cols)
+            df_to_return[cols[-1]] = df.iloc[:, 1] - sum_cols
+            
+            x_return = df_to_return_debug.drop(df_to_return_debug.columns[0], axis=1) # Drop IRIS column
+            x_df = df.drop(df.columns[0], axis=1) # Drop IRIS column
+            x_df = x_df.drop(x_df.columns[0], axis=1) # Drop first column for later calculation (sum_others should be equal to this column)
       
     # If first column should be included  
     elif (len(df.columns) - 1) == lenght:

@@ -3,6 +3,7 @@ repackage.up()
 
 import json
 import inspect
+import functools
 import logging
 import unittest
 import pandas as pd
@@ -22,7 +23,7 @@ fileHandler.setLevel(getattr(logging, data["log_level_file"]))
 consoleHandler = logging.StreamHandler()
 consoleHandler.setLevel(getattr(logging, data["log_level_console"]))
 
-formatter = logging.Formatter("[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s (L.%(lineno)s - %(funcName)s())")
+formatter = logging.Formatter("[%(asctime)s] [%(name)s] [%(levelname)s] - %(message)s (L.%(lineno)s - %(real_func_name)s())")
 fileHandler.setFormatter(formatter)
 consoleHandler.setFormatter(formatter)
 
@@ -45,40 +46,55 @@ df_ok_complete_sum_max = max(complete_new_df_debug(df_ok, 3, "fr_co#")["sum"])
 df_error_complete_sum_min = min(complete_new_df_debug(df_error, 4, "fr_oc#")["sum"])
 df_error_complete_sum_max = max(complete_new_df_debug(df_error, 4, "fr_oc#")["sum"])
 
+with open("config.json") as config_file:
+    data = json.load(config_file) # Get all urls
+
+data_lenght = len(data)
+
+
+def log_message(function):
+
+    @functools.wraps(function)
+    def new_function(self, *args, **kwargs):
+        try:
+            function(self, *args, **kwargs)
+            logger.info("OK", extra={'real_func_name': function.__name__})
+        except Exception as e:
+            logger.error(e, extra={'real_func_name': function.__name__})
+        
+    return new_function
+
+
 # Make the test
 class TestSum(unittest.TestCase):
+    
+    @log_message
     def test_ok_min(self):
-        try:
-            self.assertAlmostEqual(df_ok_complete_sum_min, 1, 4, "Should be equal to 1 with a tolerance of 4 decimals")
-            logger.info("OK")
-        except Exception as e:
-            logger.error(e)
+        self.assertAlmostEqual(df_ok_complete_sum_min, 1, 4, "Should be equal to 1 with a tolerance of 4 decimals")
         
+    @log_message
     def test_ok_max(self):
-        try:
-            self.assertAlmostEqual(df_ok_complete_sum_max, 1, 4, "Should be equal to 1 with a tolerance of 4 decimals")
-            logger.info("OK")
-        except Exception as e:
-            logger.error(e)
+        self.assertAlmostEqual(df_ok_complete_sum_max, 1, 4, "Should be equal to 1 with a tolerance of 4 decimals")
         
+    @log_message
     def test_error_min(self):
-        try:
-            self.assertNotAlmostEqual(df_error_complete_sum_min, 1, 4, "Should be equal to 1 with a tolerance of 4 decimals")
-            logger.info("OK")
-        except Exception as e:
-            logger.error(e)
+        self.assertNotAlmostEqual(df_error_complete_sum_min, 1, 4, "Should be equal to 1 with a tolerance of 4 decimals")
         
+    @log_message
     def test_error_max(self):
-        try:
-            self.assertNotAlmostEqual(df_error_complete_sum_max, 1, 4, "Should be equal to 1 with a tolerance of 4 decimals")
-            logger.info("OK")
-        except Exception as e:
-            logger.error(e)
+        self.assertNotAlmostEqual(df_error_complete_sum_max, 1, 4, "Should be equal to 1 with a tolerance of 4 decimals")
+            
+
+class TestUrls(unittest.TestCase):
+    
+    @log_message
+    def test_len_of_urls(self):
+        self.assertEqual(data_lenght, 9, "Should be equal to 9")
 
 
 if __name__ == '__main__':
-    logger.info("Starting...")
+    logger.info("Starting...", extra={'real_func_name': "__main__"})
     unittest.main(exit=False)
-    logger.info("Finished!")
+    logger.info("Finished!", extra={'real_func_name': "__main__"})
     
 # si il n'y pas tous les liens dans le json remonter un erreur
