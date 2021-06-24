@@ -55,7 +55,7 @@ def complete_new_df(df, lenght, prefix, start=0):
         df_to_return_debug["sum"] += x_return[col]
     
     # Calculate with an error tolerance if there are outliers            
-    if abs(min(df_to_return_debug["sum"]) - 1) >= 0.001 or abs(max(df_to_return_debug["sum"]) - 1) >= 0.001:
+    if abs(min(df_to_return_debug["sum"]) - 1) >= 0.1 or abs(max(df_to_return_debug["sum"]) - 1) >= 0.1:
         print("Sum of columns not equals to 1 for prefix: %s!" % prefix) # Should be an exception   
     
     df_to_return = df_to_return_debug

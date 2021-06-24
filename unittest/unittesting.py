@@ -80,3 +80,5 @@ if __name__ == '__main__':
     logger.info("Starting...")
     unittest.main(exit=False)
     logger.info("Finished!")
+    
+# si il n'y pas tous les liens dans le json remonter un erreur
