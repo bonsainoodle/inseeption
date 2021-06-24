@@ -96,5 +96,4 @@ if __name__ == '__main__':
     logger.info("Starting...", extra={'real_func_name': "__main__"})
     unittest.main(exit=False)
     logger.info("Finished!", extra={'real_func_name': "__main__"})
-    
-# si il n'y pas tous les liens dans le json remonter un erreur
+
