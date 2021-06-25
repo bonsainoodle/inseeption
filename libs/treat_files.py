@@ -3,9 +3,20 @@ import numpy as np
 
 
 def init_new_df(df, cols):
+    """
+    Create a new DataFrame object with the wanted columns inside
+
+            Parameters:
+                    df (pd.DataFrame): Previously downloaded csv that was converted to a DataFrame object
+                    cols (List[str]): List of columns you want to keep
+
+            Returns:
+                    df_to_return (pd.DataFrame): New DataFrame object that contains only wanted columns
+    """
+    
     df_to_return = pd.DataFrame()
 
-    df_to_return["IRIS"] = df["IRIS"] # Copy IRIS column to the new df
+    df_to_return["IRIS"] = df["IRIS"] # Copy IRIS column to the new df since it will be our primary key
     
     for col in cols:
         df_to_return[col] = df[col] # Copy every wanted column to the new df
@@ -14,6 +25,20 @@ def init_new_df(df, cols):
 
 
 def complete_new_df(df, lenght, prefix, start=0, last_is_total_minus_sum=False):
+    """
+    Create a new DataFrame object that contains new columns that are the result of previous ones calculations
+
+            Parameters:
+                    df (pd.DataFrame): Previously initialised DataFrame object that contains only wanted columns + "IRIS" column
+                    lenght (int): Number of columns you want at the end
+                    prefix (str): Prefix of the columns you want at the end (if prefix="hello" & lenght=2, columns=["hello0", "hello1", "hello2"])
+                    start (int): Where should the columns suffix start (if prefix="hello" & lenght=3 & start=1, columns=["hello1", "hello2", "hello3"])
+                    last_is_total_minus_sum (bool): Should the last column be the result of first_col - sum(all others)
+
+            Returns:
+                    df_to_return (pd.DataFrame): New DataFrame object that contains "IRIS" column + newly created columns
+    """
+    
     cols = []
     
     x_return = pd.DataFrame()
@@ -70,8 +95,10 @@ def complete_new_df(df, lenght, prefix, start=0, last_is_total_minus_sum=False):
     for col in cols:
         df_to_return_debug["sum"] += x_return[col]
     
-    # Calculate with an error tolerance if there are outliers            
-    if abs(min(df_to_return_debug["sum"]) - 1) >= 0.1 or abs(max(df_to_return_debug["sum"]) - 1) >= 0.1:
+    # Calculate with an error tolerance if there are outliers 
+    error_tolerance = 0.1
+               
+    if abs(min(df_to_return_debug["sum"]) - 1) >= error_tolerance or abs(max(df_to_return_debug["sum"]) - 1) >= error_tolerance: 
         print("Sum of columns not equals to 1 for prefix: %s!" % prefix) # Should be an exception   
     
     df_to_return = df_to_return_debug
@@ -83,6 +110,13 @@ def complete_new_df(df, lenght, prefix, start=0, last_is_total_minus_sum=False):
 
 
 def complete_new_df_debug(df, lenght, prefix, start=0, last_is_total_minus_sum=False):
+    """
+    Same function as complete_new_df except it returns also a debug column
+
+            Returns:
+                    df_to_return_debug (pd.DataFrame): New DataFrame object that contains "IRIS" column + newly created columns + "sum" column that is the sum of all columns except the "IRIS" one (it should be around 1 except for outliers)
+    """
+    
     cols = []
     
     x_return = pd.DataFrame()

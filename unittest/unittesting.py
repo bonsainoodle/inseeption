@@ -30,7 +30,7 @@ consoleHandler.setFormatter(formatter)
 logger.addHandler(fileHandler)
 logger.addHandler(consoleHandler)
 
-# Create ok and error datasets
+# Create ok and error datasets from already downloaded files
 df_b_ok = pd.read_csv("unittest/base-ic-couples-familles-menages-2017.CSV", sep=";", low_memory=False)
 df_b_error = pd.read_csv("unittest/base-ic-logement-2017.CSV", sep=";", low_memory=False)
 
@@ -52,20 +52,21 @@ with open("config.json") as config_file:
 data_lenght = len(data)
 
 
+# Decorator that allows us to log infos when the operation is successful and errors when it isn't
 def log_message(function):
 
     @functools.wraps(function)
     def new_function(self, *args, **kwargs):
         try:
             function(self, *args, **kwargs)
-            logger.info("OK", extra={'real_func_name': function.__name__})
+            logger.info("OK", extra={'real_func_name': function.__name__}) # Allow us to get the name of the function where the decorator is executed
         except Exception as e:
-            logger.error(e, extra={'real_func_name': function.__name__})
+            logger.error(e, extra={'real_func_name': function.__name__}) # Allow us to get the name of the function where the decorator is executed
         
     return new_function
 
 
-# Make the test
+# Make the test for sum column
 class TestSum(unittest.TestCase):
     
     @log_message
@@ -85,6 +86,7 @@ class TestSum(unittest.TestCase):
         self.assertNotAlmostEqual(df_error_complete_sum_max, 1, 4, "Should be equal to 1 with a tolerance of 4 decimals")
             
 
+# Make the test to check if there are enough urls in config.json
 class TestUrls(unittest.TestCase):
     
     @log_message
