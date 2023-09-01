@@ -1,2 +1,2 @@
 # inseeption
-Retrieve data from insee open data
+retrieve data from insee open data
